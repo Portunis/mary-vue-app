@@ -11,6 +11,14 @@
         <fa icon="user" class="icon" />
         <a>Главная</a>
       </div>
+      <div class="nav-bar__link">
+        <fa icon="star" class="icon" />
+        <a>Умения</a>
+      </div>
+      <div class="nav-bar__link">
+        <fa icon="house" class="icon" />
+        <a>Имущество</a>
+      </div>
     </div>
   </div>
 </template>
@@ -52,7 +60,7 @@ export default {
   }
   &__link {
     position: relative;
-    color: #1657ff;
+    color: #fff;
     font-family: $poppins-font;
     font-style: normal;
     font-weight: 600;
@@ -61,17 +69,10 @@ export default {
     cursor: pointer;
     display: flex;
     align-items: center;
-    &:before {
-      content: "";
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 4px;
-      height: 35px;
-      background: #1657ff;
-      box-shadow: -2px 0px 10px 2px rgba(0, 56, 255, 0.15);
-      border-radius: 100px;
-    }
+    padding: 20px;
+    background: linear-gradient(101.84deg, #5c24fc 2.78%, #9d7aff 98.95%);
+    border-radius: 10px;
+    margin: 10px 15px;
   }
 }
 .user {

@@ -1,4 +1,8 @@
 <template>
+  <div class="nav-bar">
+    <h2 class="nav-bar__title">Главная страница</h2>
+    <div><UiButton class="button-exit" @click="logOut">Выйти</UiButton></div>
+  </div>
   <div class="wrapper">
     <div class="wrapper__card-hello">
       <div class="info">
@@ -19,7 +23,7 @@
 
     <div class="wrapper__card wrapper__card-icon">
       Статистика
-      <div class="chart"><LineChart :chartData="chartTask" /></div>
+      <!--      <div class="chart"><LineChart :chartData="chartTask" /></div>-->
     </div>
     <div class="wrapper__card wrapper__card-chart">
       <div class="achievement">
@@ -49,16 +53,16 @@
       </div>
     </div>
     <div class="wrapper__card">
-      <p class="wrapper__card-title">Title</p>
-      <div class="wrapper__card-description">description</div>
+      <p class="wrapper__card-title">Возраст</p>
+      <div class="wrapper__card-description">25 лет</div>
     </div>
     <div class="wrapper__card">
-      <p class="wrapper__card-title">Title</p>
-      <div class="wrapper__card-description">description</div>
+      <p class="wrapper__card-title">Деньги</p>
+      <div class="wrapper__card-description">249.01$</div>
     </div>
     <div class="wrapper__card">
-      <p class="wrapper__card-title">Title</p>
-      <div class="wrapper__card-description">description</div>
+      <p class="wrapper__card-title">Телефон</p>
+      <div class="wrapper__card-description">90 32 45</div>
     </div>
   </div>
 </template>
@@ -66,11 +70,15 @@
 import { defineComponent } from "vue";
 import { LineChart } from "vue-chart-3";
 import { Chart, registerables } from "chart.js";
+import UiButton from "@/components/UI/button/UiButton.vue";
+import { mapActions } from "pinia";
+import { useAuthUserStore } from "@/store/authUser";
 
 Chart.register(...registerables);
 
 export default defineComponent({
-  components: { LineChart },
+  components: { UiButton },
+  // components: { LineChart },
   data() {
     return {
       chartBar: {} as Record<string, unknown>,
@@ -81,6 +89,9 @@ export default defineComponent({
     this.initChart();
   },
   methods: {
+    ...mapActions(useAuthUserStore, {
+      logOut: "logoutUser",
+    }),
     initChart(): void {
       this.chartTask = {
         labels: ["Created", "Active", "Completed"],
@@ -107,7 +118,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 @import "../assets/variables";
 .wrapper {
-  margin: 130px 24px;
+  margin: 70px 24px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(2, 1fr);
@@ -205,5 +216,28 @@ export default defineComponent({
   padding: 15px;
   background: #a0aec0;
   border-radius: 10px;
+}
+.nav-bar {
+  margin: 50px 25px 0 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &__title {
+    margin: 0;
+    font-family: $poppins-font;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 28px;
+    line-height: 140%;
+    /* or 39px */
+
+    /* BG Text */
+
+    color: #3c3f88;
+  }
+}
+.button-exit {
+  padding: 10px 15px;
 }
 </style>
