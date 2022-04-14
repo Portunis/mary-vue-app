@@ -1,30 +1,30 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view />
+  <component :is="layout">
+    <template v-slot:content>
+      <router-view />
+    </template>
+  </component>
 </template>
+<script lang="ts">
+import { defineComponent } from "vue";
+import { mapActions } from "pinia";
+import { useAuthUserStore } from "@/store/authUser";
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
-</style>
+export default defineComponent({
+  name: "app",
+  computed: {
+    layout: function () {
+      return this.$route.meta.layout || "default-layout";
+    },
+  },
+  methods: {
+    ...mapActions(useAuthUserStore, {
+      getUser: "getUserAuth",
+    }),
+  },
+  created() {
+    this.getUser();
+  },
+});
+</script>
+<style lang="scss"></style>

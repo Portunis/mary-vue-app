@@ -1,18 +1,21 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
-  </div>
+  <div class="home">Главная страница для всех</div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import HelloWorld from "@/components/HelloWorld.vue"; // @ is an alias to /src
+import { mapActions } from "pinia";
+import { useAuthUserStore } from "@/store/authUser";
 
 export default defineComponent({
   name: "HomeView",
-  components: {
-    HelloWorld,
+  methods: {
+    ...mapActions(useAuthUserStore, {
+      authGoogle: "authGoogle",
+    }),
+    googleAuth() {
+      this.authGoogle();
+    },
   },
 });
 </script>
