@@ -1,25 +1,52 @@
-import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
-import HomeView from "../views/HomeView.vue";
+import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 
 const routes: Array<RouteRecordRaw> = [
+  // {
+  //   path: "/:catchAll(.*)",
+  //   name: "Notfound",
+  //   component: () => import("../views/NotFoundView.vue"),
+  // },
   {
     path: "/",
-    name: "home",
-    component: HomeView,
+    name: "IndexView",
+    component: () => import("../views/HomeView.vue"),
   },
   {
-    path: "/about",
-    name: "about",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
+    path: "/auth",
+    name: "AuthView",
+    component: () => import("../views/AuthView.vue"),
+    meta: {
+      layout: "auth-layout",
+    },
+  },
+  {
+    path: "/user",
+    name: "UserProfile",
+    component: () => import("../views/UserProfile.vue"),
+    meta: {
+      layout: "user-profile-layout",
+    },
+  },
+  {
+    path: "/user/skills",
+    name: "ChartView",
+    component: () => import("../views/ChartView.vue"),
+    meta: {
+      layout: "user-profile-layout",
+    },
+  },
+  {
+    path: "/user/projects",
+    name: "ProjectsView",
+    component: () => import("../views/ProjectsView.vue"),
+    meta: {
+      layout: "user-profile-layout",
+    },
   },
 ];
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(process.env.BASE_URL),
   routes,
 });
 
