@@ -19,3 +19,9 @@
   letter-spacing: 0.5px;
   color: #8D8D8D;
 }
+@mixin placeholder {
+  &::-webkit-input-placeholder {@content}
+  &:-moz-placeholder           {@content}
+  &::-moz-placeholder          {@content}
+  &:-ms-input-placeholder      {@content}
+}

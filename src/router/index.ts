@@ -35,6 +35,14 @@ const routes: Array<RouteRecordRaw> = [
       layout: "user-profile-layout",
     },
   },
+  {
+    path: "/user/projects",
+    name: "ProjectsView",
+    component: () => import("../views/ProjectsView.vue"),
+    meta: {
+      layout: "user-profile-layout",
+    },
+  },
 ];
 
 const router = createRouter({

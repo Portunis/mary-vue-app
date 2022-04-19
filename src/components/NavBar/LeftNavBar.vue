@@ -2,7 +2,7 @@
   <div class="nav-bar">
     <div class="user">
       <div class="user__info">
-        <img class="user__avatar" src="../../assets/img/pngegg.png" />
+        <img class="user__avatar" :src="user.photoURL" />
         <p class="user__name">{{ user.email }}</p>
         <p class="user__server">ServerName</p>
       </div>
@@ -15,6 +15,10 @@
       <router-link to="/user/skills" class="link">
         <fa icon="star" class="icon" />
         <a class="link__item">Умения</a>
+      </router-link>
+      <router-link to="/user/projects" class="link">
+        <fa icon="square-poll-horizontal" class="icon" />
+        <a class="link__item">Проекты</a>
       </router-link>
     </div>
   </div>
