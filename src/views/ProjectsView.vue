@@ -163,10 +163,18 @@ export default defineComponent({
     },
   },
   methods: {
-    infoProject(e: object): void {
+    /**
+     * Передает проект в переменную aboutProject
+     *
+     * @param dataProject - выбранный проет
+     */
+    infoProject(dataProject: object): void {
       this.detailsProject = true;
-      this.aboutProject = e as ProjectModel;
+      this.aboutProject = dataProject as ProjectModel;
     },
+    /**
+     * Закрывает окно и очищает переменную aboutProject
+     */
     closeDetailProject(): void {
       this.detailsProject = false;
       this.aboutProject = {} as ProjectModel;

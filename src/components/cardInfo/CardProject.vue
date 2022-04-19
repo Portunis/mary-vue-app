@@ -47,6 +47,9 @@ export default defineComponent({
     },
   },
   methods: {
+    /**
+     * Передаем выбранный объект
+     */
     aboutInfo() {
       this.$emit("projectInfo", this.dataProject);
     },
