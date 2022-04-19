@@ -12,7 +12,7 @@
           class="chart-progress"
           :style="{ width: skillsItem.startStats + '%' }"
         >
-          <p class="chart-progress__count">{{ skillsItem.startStats }}%</p>
+          <!--          <p class="chart-progress__count">{{ skillsItem.stats }}%</p>-->
         </div>
       </div>
     </div>
@@ -91,7 +91,7 @@ export default defineComponent({
           } else {
             clearInterval(interval);
           }
-        }, 20);
+        }, 0);
       });
     },
   },
@@ -135,6 +135,7 @@ export default defineComponent({
   border-radius: 0 2px 2px 0;
   margin: 0 5px 0 16px;
   .chart-progress {
+    transition: 0.6s ease-in;
     position: absolute;
     width: 123px;
     height: 22px;

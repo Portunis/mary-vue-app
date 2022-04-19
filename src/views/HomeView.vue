@@ -1,5 +1,6 @@
 <template>
   <div class="home">Главная страница для всех</div>
+  <router-link to="/user">button user</router-link>
 </template>
 
 <script lang="ts">

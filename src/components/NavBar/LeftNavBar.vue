@@ -92,7 +92,10 @@ export default {
   }
 }
 .user {
+  width: 300px;
+  margin: 0 auto;
   &__name {
+    word-break: break-all;
     font-family: $poppins-font;
     font-style: normal;
     font-weight: 900;

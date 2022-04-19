@@ -24,7 +24,7 @@
     <div class="projects-card__item-buttons">
       <p class="projects-card__item-date">{{ dataProject.date }}</p>
       <div class="projects-card__item-button">
-        <a class="button__name">Link</a>
+        <a class="button__name" :href="dataProject.buttonLink">Link</a>
         <fa class="button__link" icon="link" />
       </div>
       <div @click="aboutInfo" class="projects-card__item-button">
@@ -121,6 +121,8 @@ export default defineComponent({
 .button {
   &__name {
     margin: 0 10px 0 0;
+    text-decoration: none;
+    color: #707070;
   }
 }
 </style>
