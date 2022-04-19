@@ -22,7 +22,10 @@
     <span v-if="errorMsg === 'Неверный пароль'" class="input-error">{{
       errorMsg
     }}</span>
-    <span v-if="!activeResetPassword" @click="activeResetPassword = true"
+    <span
+      class="resetPassword"
+      v-if="!activeResetPassword"
+      @click="activeResetPassword = true"
       >Забыли пароль ?</span
     >
 
@@ -168,5 +171,11 @@ export default defineComponent({
 .loaderAuth {
   width: 100px;
   margin: 15px auto;
+}
+.resetPassword {
+  &:hover {
+    color: #4d47c3;
+    cursor: pointer;
+  }
 }
 </style>

@@ -28,9 +28,9 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
-    path: "/user/info",
-    name: "InfoView",
-    component: () => import("../views/InfoView.vue"),
+    path: "/user/skills",
+    name: "ChartView",
+    component: () => import("../views/ChartView.vue"),
     meta: {
       layout: "user-profile-layout",
     },

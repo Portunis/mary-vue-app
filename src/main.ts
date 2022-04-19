@@ -15,6 +15,8 @@ import { fas, faFontAwesome } from "@fortawesome/free-solid-svg-icons";
 library.add(fas, faFontAwesome);
 
 //
+import "@/assets/scss/mixins.scss";
+
 createApp(App)
   .use(router)
   .use(createPinia())

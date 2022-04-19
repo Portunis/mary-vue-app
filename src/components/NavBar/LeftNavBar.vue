@@ -3,22 +3,19 @@
     <div class="user">
       <div class="user__info">
         <img class="user__avatar" src="../../assets/img/pngegg.png" />
-        <p>{{ user.email }}</p>
+        <p class="user__name">{{ user.email }}</p>
+        <p class="user__server">ServerName</p>
       </div>
     </div>
     <div class="nav-bar__links">
-      <div class="nav-bar__link">
+      <router-link to="/user" class="link">
         <fa icon="user" class="icon" />
-        <a>Главная</a>
-      </div>
-      <div class="nav-bar__link">
+        <a class="link__item">Главная</a>
+      </router-link>
+      <router-link to="/user/skills" class="link">
         <fa icon="star" class="icon" />
-        <a>Умения</a>
-      </div>
-      <div class="nav-bar__link">
-        <fa icon="house" class="icon" />
-        <a>Имущество</a>
-      </div>
+        <a class="link__item">Умения</a>
+      </router-link>
     </div>
   </div>
 </template>
@@ -53,29 +50,68 @@ export default {
 
   box-shadow: 0 0 16px rgba(0, 0, 0, 0.15);
   &__links {
-    font-family: $poppins-font;
-    font-weight: $regular-font-weight;
     text-align: left;
     margin: 50px 0 0 15px;
   }
-  &__link {
-    position: relative;
+}
+.link {
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 10px 15px;
+  color: rgba(0, 0, 0, 0.4);
+  text-decoration: none;
+  &:hover {
+    background: linear-gradient(101.84deg, #5c24fc 2.78%, #9d7aff 98.95%);
     color: #fff;
+    .link__item {
+      color: #fff;
+    }
+  }
+  &__item {
     font-family: $poppins-font;
     font-style: normal;
-    font-weight: 600;
+    font-weight: 300;
     font-size: 16px;
     line-height: 140%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    padding: 20px;
-    background: linear-gradient(101.84deg, #5c24fc 2.78%, #9d7aff 98.95%);
-    border-radius: 10px;
-    margin: 10px 15px;
+    color: rgba(0, 0, 0, 0.4);
+  }
+}
+.router-link-active.router-link-exact-active {
+  background: linear-gradient(101.84deg, #5c24fc 2.78%, #9d7aff 98.95%);
+  color: #fff;
+  .link__item {
+    color: #fff;
   }
 }
 .user {
+  &__name {
+    font-family: $poppins-font;
+    font-style: normal;
+    font-weight: 900;
+    font-size: 24px;
+    line-height: 140%;
+
+    text-align: center;
+    letter-spacing: 0.01em;
+
+    color: #212121;
+  }
+  &__server {
+    font-family: $poppins-font;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 140%;
+    /* or 22px */
+
+    text-align: center;
+
+    color: #bbbbbb;
+  }
   &__info {
     margin: 30px 0;
     font-family: $poppins-font;
