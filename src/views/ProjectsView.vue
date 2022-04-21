@@ -270,8 +270,6 @@ export default defineComponent({
     padding: 10px 0 10px 30px;
     font-family: $poppins-font;
     color: rgba(0, 0, 0, 0.5);
-    &:before {
-    }
   }
 }
 </style>

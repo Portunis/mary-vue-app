@@ -6,15 +6,28 @@
         class="form-user__input"
         v-model="registerForm.email"
         placeholder="Введите email"
+        :class="{
+          error: v$.registerForm.email.$error,
+          successful: !v$.registerForm.email.$invalid,
+        }"
       />
+      <span class="input-error" v-if="v$.registerForm.email.$error">
+        {{ v$.registerForm.email.$errors[0].$message }}
+      </span>
       <UiInput
         class="form-user__input"
         v-model="registerForm.password"
         placeholder="Введите пароль"
+        :class="{
+          error: v$.registerForm.password.$error,
+          successful: !v$.registerForm.password.$invalid,
+        }"
       />
+      <span class="input-error" v-if="v$.registerForm.password.$error">
+        {{ v$.registerForm.password.$errors[0].$message }}
+      </span>
     </div>
-    <span v-if="errorMsg" class="input-error">{{ errorMsg }}</span>
-    <UiButton @click.prevent="userRegister" class="form-user__button"
+    <UiButton @click.prevent="registerUser" class="form-user__button"
       >Регистрация</UiButton
     >
   </form>
@@ -22,11 +35,12 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-
+import useVuelidate from "@vuelidate/core";
 import UiInput from "@/components/UI/input/UiInput.vue";
 import UiButton from "@/components/UI/button/UiButton.vue";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/firebase";
+import { email, helpers, required, minLength } from "@vuelidate/validators";
 
 export default defineComponent({
   name: "RegisterUser",
@@ -34,11 +48,31 @@ export default defineComponent({
   template: "AuthLayout",
   data() {
     return {
+      v$: useVuelidate(),
+      registerSuccessful: false,
       registerForm: {
         email: "",
         password: "",
       },
       errorMessage: "",
+    };
+  },
+  emits: ["auth-user"],
+  validations() {
+    return {
+      registerForm: {
+        email: {
+          email: helpers.withMessage("Указан неверный формат почты", email),
+          required: helpers.withMessage("Обязательное поле", required),
+        },
+        password: {
+          minLength: helpers.withMessage(
+            `Минимальная длина пароля 6 символов`,
+            minLength(6)
+          ),
+          required: helpers.withMessage("Обязательное поле", required),
+        },
+      },
     };
   },
   methods: {
@@ -52,9 +86,10 @@ export default defineComponent({
         this.registerForm.password
       )
         .then(() => {
-          console.log(1);
+          this.$emit("auth-user");
         })
         .catch((error) => {
+          this.v$.$validate();
           switch (error.code) {
             case "auth/invalid-email":
               this.errorMessage = "Неверный формат email";
@@ -70,6 +105,9 @@ export default defineComponent({
               this.errorMessage = "Email  или пароль неверны";
               break;
           }
+        })
+        .finally(() => {
+          this.registerSuccessful = false;
         });
     },
   },
@@ -94,7 +132,8 @@ export default defineComponent({
 }
 .input-error {
   color: #f16063;
-  text-align: center;
+  text-align: left;
+  margin-left: 10px;
   width: 300px;
 }
 .group-input {

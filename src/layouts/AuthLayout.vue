@@ -42,7 +42,7 @@
       <div>
         <RegisterUser
           v-if="notRegister"
-          @authUser="
+          @auth-user="
             notAuth = true;
             notRegister = false;
           "

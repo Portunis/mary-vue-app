@@ -7,21 +7,27 @@
         class="form-user__input"
         v-model="authForm.email"
         placeholder="Введите email"
+        :class="{
+          error: v$.authForm.email.$error,
+        }"
       />
-      <span
-        v-if="errorMsg && errorMsg !== 'Неверный пароль'"
-        class="input-error"
-        >{{ errorMsg }}</span
-      >
+      <span class="input-error" v-if="v$.authForm.email.$error">
+        {{ v$.authForm.email.$errors[0].$message }}
+      </span>
+
       <UiInput
         class="form-user__input"
         v-model="authForm.password"
         placeholder="Введите пароль"
+        :class="{
+          error: v$.authForm.password.$error,
+        }"
       />
+      <span class="input-error" v-if="v$.authForm.password.$error">
+        {{ v$.authForm.password.$errors[0].$message }}
+      </span>
     </div>
-    <span v-if="errorMsg === 'Неверный пароль'" class="input-error">{{
-      errorMsg
-    }}</span>
+
     <span
       class="resetPassword"
       v-if="!activeResetPassword"
@@ -35,7 +41,6 @@
       placeholder="Введите почту"
       v-model="emailResetPassword"
     />
-
     <div v-if="!loadingAuth">
       <UiButton
         v-if="!activeResetPassword"
@@ -59,6 +64,8 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
+import useVuelidate from "@vuelidate/core";
+
 import UiInput from "@/components/UI/input/UiInput.vue";
 import UiButton from "@/components/UI/button/UiButton.vue";
 import { mapActions } from "pinia";
@@ -67,6 +74,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/firebase";
 import router from "@/router";
 import UiLoading from "@/components/UI/loading/loading.vue";
+import { email, helpers, required } from "@vuelidate/validators";
 
 export default defineComponent({
   name: "LoginUser",
@@ -74,6 +82,7 @@ export default defineComponent({
   template: "AuthLayout",
   data() {
     return {
+      v$: useVuelidate(),
       loadingAuth: false,
       activeResetPassword: false,
       emailResetPassword: "",
@@ -84,7 +93,23 @@ export default defineComponent({
       errorMsg: "",
     };
   },
-
+  validations() {
+    return {
+      authForm: {
+        email: {
+          email: helpers.withMessage("Указан неверный формат почты", email),
+          required: helpers.withMessage("Обязательное поле", required),
+        },
+        password: {
+          required: helpers.withMessage("Обязательное поле", required),
+        },
+      },
+      emailResetPassword: {
+        email: helpers.withMessage("Указан неверный формат почты", email),
+        required: helpers.withMessage("Обязательное поле", required),
+      },
+    };
+  },
   methods: {
     /**
      * Авторизируем пользователя в системе
@@ -99,10 +124,14 @@ export default defineComponent({
       this.loadingAuth = true;
       await this.resetPassword(this.emailResetPassword)
         .then(() => {
+          this.v$.$validate();
           this.loadingAuth = false;
         })
         .catch((error) => {
+          this.loadingAuth = false;
+          this.v$.$validate();
           console.log(error.code);
+          this.errorMsg = error.code;
         });
     },
     /**
@@ -120,6 +149,7 @@ export default defineComponent({
           this.loadingAuth = false;
         })
         .catch((error) => {
+          this.v$.$validate();
           this.loadingAuth = false;
           switch (error.code) {
             case "auth/invalid-email":
@@ -162,6 +192,7 @@ export default defineComponent({
   color: #f16063;
   text-align: left;
   width: 350px;
+  margin-left: 10px;
 }
 .group-input {
   display: flex;

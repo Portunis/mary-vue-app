@@ -39,4 +39,13 @@ export default defineComponent({
     padding: 12px 10px 12px 15px;
   }
 }
+.error {
+  border: 1px solid #f16063;
+  color: #f16063;
+  background: #ffefef;
+}
+.successful {
+  border: 1px solid #39ff5e;
+  background: #effff2;
+}
 </style>
