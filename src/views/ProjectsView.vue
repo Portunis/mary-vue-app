@@ -10,7 +10,15 @@
   <div class="wrapper">
     <div
       class="projects-card"
-      :style="{ width: detailsProject ? 950 + 'px' : 1350 + 'px' }"
+      :style="{
+        width: detailsProject
+          ? 950 + 'px'
+          : detailsProjectFull
+          ? 140 + 'px'
+          : 1350 + 'px',
+        height: detailsProjectFull ? 747 + 'px' : '',
+        overflow: detailsProjectFull ? 'hidden' : '',
+      }"
     >
       <h3 class="projects-card__title">All Projects</h3>
       <CardProject
@@ -18,15 +26,26 @@
         :key="cardProject.id"
         :dataProject="cardProject"
         @projectInfo="infoProject"
+        :detailsProjectFull="detailsProjectFull"
+        :detailsProject="detailsProject"
       />
     </div>
-    <div class="detailsProject" v-if="detailsProject">
-      <div class="card">
+    <div class="detailsProject" v-if="detailsProject || detailsProjectFull">
+      <div
+        class="card"
+        :style="{
+          width: detailsProjectFull ? 1195 + 'px' : 470 + 'px',
+        }"
+      >
         <div class="card__header">
           <h3 class="projects-card__title">Project Details</h3>
           <div class="button" @click="closeDetailProject">
             <fa class="button__icon" icon="rotate-right" />
             <a class="button__close">Close</a>
+          </div>
+          <div class="button" @click="openFullDetailProject">
+            <fa class="button__icon" icon="rotate-right" />
+            <a class="button__close">open</a>
           </div>
         </div>
         <div v-if="!errorProject">
@@ -36,7 +55,13 @@
           />
           <h3 class="card__title">{{ aboutProject.title }}</h3>
           <p>{{ aboutProject.date }}</p>
-          <div>tut info</div>
+          <div>
+            <div>
+              <div>name</div>
+              <div>role</div>
+              <div>time</div>
+            </div>
+          </div>
         </div>
         <div v-if="errorProject" class="card__error">
           <h3 class="card__error-title">Unable to Load Data</h3>
@@ -149,9 +174,65 @@ export default defineComponent({
           backgroundColor: "rgba(61, 219, 134, 0.2)",
           colorText: "#3DDB86",
         },
+        {
+          id: 1,
+          title: "Go debate",
+          badgeInfo: "Android Developer",
+          college: "GTBIT College - Android",
+          date: "feb 2016",
+          buttonLink: "",
+          image: "projectsPlaceholder.png",
+          backgroundColor: "rgba(61, 219, 134, 0.2)",
+          colorText: "#3DDB86",
+        },
+        {
+          id: 1,
+          title: "Go debate",
+          badgeInfo: "Android Developer",
+          college: "GTBIT College - Android",
+          date: "feb 2016",
+          buttonLink: "",
+          image: "projectsPlaceholder.png",
+          backgroundColor: "rgba(61, 219, 134, 0.2)",
+          colorText: "#3DDB86",
+        },
+        {
+          id: 1,
+          title: "Go debate",
+          badgeInfo: "Android Developer",
+          college: "GTBIT College - Android",
+          date: "feb 2016",
+          buttonLink: "",
+          image: "projectsPlaceholder.png",
+          backgroundColor: "rgba(61, 219, 134, 0.2)",
+          colorText: "#3DDB86",
+        },
+        {
+          id: 1,
+          title: "Go debate",
+          badgeInfo: "Android Developer",
+          college: "GTBIT College - Android",
+          date: "feb 2016",
+          buttonLink: "",
+          image: "projectsPlaceholder.png",
+          backgroundColor: "rgba(61, 219, 134, 0.2)",
+          colorText: "#3DDB86",
+        },
+        {
+          id: 1,
+          title: "Go debate",
+          badgeInfo: "Android Developer",
+          college: "GTBIT College - Android",
+          date: "feb 2016",
+          buttonLink: "",
+          image: "projectsPlaceholder.png",
+          backgroundColor: "rgba(61, 219, 134, 0.2)",
+          colorText: "#3DDB86",
+        },
       ] as ProjectModel[],
       aboutProject: {} as ProjectModel,
       detailsProject: false,
+      detailsProjectFull: false,
     };
   },
   computed: {
@@ -177,7 +258,12 @@ export default defineComponent({
      */
     closeDetailProject(): void {
       this.detailsProject = false;
+      this.detailsProjectFull = false;
       this.aboutProject = {} as ProjectModel;
+    },
+    openFullDetailProject(): void {
+      this.detailsProject = false;
+      this.detailsProjectFull = true;
     },
   },
 });

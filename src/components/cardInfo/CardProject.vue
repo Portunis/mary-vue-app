@@ -2,10 +2,11 @@
   <div class="projects-card__item">
     <div class="projects-card__item-left">
       <img
+        @click="aboutInfo"
         class="projects-card__item-image"
         :src="require(`../../assets/img/${dataProject.image}`)"
       />
-      <div class="projects-card__item-info">
+      <div v-if="!detailsProjectFull" class="projects-card__item-info">
         <div class="projects-card__item-title">
           <p class="projects-card__item-name">{{ dataProject.title }}</p>
           <p
@@ -21,14 +22,19 @@
         <p class="projects-card__item-span">{{ dataProject.college }}</p>
       </div>
     </div>
-    <div class="projects-card__item-buttons">
+    <div v-if="!detailsProjectFull" class="projects-card__item-buttons">
       <p class="projects-card__item-date">{{ dataProject.date }}</p>
       <div class="projects-card__item-button">
-        <a class="button__name" :href="dataProject.buttonLink">Link</a>
+        <a
+          v-if="!detailsProject"
+          class="button__name"
+          :href="dataProject.buttonLink"
+          >Link</a
+        >
         <fa class="button__link" icon="link" />
       </div>
       <div @click="aboutInfo" class="projects-card__item-button">
-        <a class="button__name">Details</a>
+        <a v-if="!detailsProject" class="button__name">Details</a>
         <fa class="button__link" icon="angle-right" />
       </div>
     </div>
@@ -44,6 +50,12 @@ export default defineComponent({
     dataProject: {
       type: Object,
       required: true,
+    },
+    detailsProjectFull: {
+      type: Boolean,
+    },
+    detailsProject: {
+      type: Boolean,
     },
   },
   methods: {
