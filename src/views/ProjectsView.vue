@@ -43,10 +43,6 @@
             <fa class="button__icon" icon="rotate-right" />
             <a class="button__close">Close</a>
           </div>
-          <div class="button" @click="openFullDetailProject">
-            <fa class="button__icon" icon="rotate-right" />
-            <a class="button__close">open</a>
-          </div>
         </div>
         <div v-if="!errorProject">
           <img
@@ -54,7 +50,13 @@
             :src="require(`../assets/img/${aboutProject.image}`)"
           />
           <h3 class="card__title">{{ aboutProject.title }}</h3>
-          <p>{{ aboutProject.date }}</p>
+          <div
+            v-if="detailsProject"
+            class="info-badge"
+            @click="openFullDetailProject"
+          >
+            About view
+          </div>
           <div>
             <div>
               <div>name</div>
@@ -174,61 +176,6 @@ export default defineComponent({
           backgroundColor: "rgba(61, 219, 134, 0.2)",
           colorText: "#3DDB86",
         },
-        {
-          id: 1,
-          title: "Go debate",
-          badgeInfo: "Android Developer",
-          college: "GTBIT College - Android",
-          date: "feb 2016",
-          buttonLink: "",
-          image: "projectsPlaceholder.png",
-          backgroundColor: "rgba(61, 219, 134, 0.2)",
-          colorText: "#3DDB86",
-        },
-        {
-          id: 1,
-          title: "Go debate",
-          badgeInfo: "Android Developer",
-          college: "GTBIT College - Android",
-          date: "feb 2016",
-          buttonLink: "",
-          image: "projectsPlaceholder.png",
-          backgroundColor: "rgba(61, 219, 134, 0.2)",
-          colorText: "#3DDB86",
-        },
-        {
-          id: 1,
-          title: "Go debate",
-          badgeInfo: "Android Developer",
-          college: "GTBIT College - Android",
-          date: "feb 2016",
-          buttonLink: "",
-          image: "projectsPlaceholder.png",
-          backgroundColor: "rgba(61, 219, 134, 0.2)",
-          colorText: "#3DDB86",
-        },
-        {
-          id: 1,
-          title: "Go debate",
-          badgeInfo: "Android Developer",
-          college: "GTBIT College - Android",
-          date: "feb 2016",
-          buttonLink: "",
-          image: "projectsPlaceholder.png",
-          backgroundColor: "rgba(61, 219, 134, 0.2)",
-          colorText: "#3DDB86",
-        },
-        {
-          id: 1,
-          title: "Go debate",
-          badgeInfo: "Android Developer",
-          college: "GTBIT College - Android",
-          date: "feb 2016",
-          buttonLink: "",
-          image: "projectsPlaceholder.png",
-          backgroundColor: "rgba(61, 219, 134, 0.2)",
-          colorText: "#3DDB86",
-        },
       ] as ProjectModel[],
       aboutProject: {} as ProjectModel,
       detailsProject: false,
@@ -306,7 +253,15 @@ export default defineComponent({
     letter-spacing: 0.5px;
   }
 }
-
+.info-badge {
+  padding: 10px;
+  background: rgb(168 174 251 / 50%);
+  width: 100px;
+  border-radius: 10px;
+  margin: 0 auto;
+  color: #1657ff;
+  cursor: pointer;
+}
 .projects-card {
   transition: 0.6s ease;
   width: 1350px;

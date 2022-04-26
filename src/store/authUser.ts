@@ -9,7 +9,6 @@ import {
   signInWithPopup,
   sendPasswordResetEmail,
 } from "firebase/auth";
-import UserClasses from "@/classes/UserClasses";
 
 export const useAuthUserStore = defineStore("auth-user", {
   state: () => ({
@@ -29,7 +28,6 @@ export const useAuthUserStore = defineStore("auth-user", {
           this.user = user;
           localStorage.setItem("USER_LOGGED", user.uid);
           this.isLoggedIn = true;
-          new UserClasses(user.uid);
         }
       });
     },

@@ -1,10 +1,14 @@
 <template>
   <div class="projects-card__item">
     <div class="projects-card__item-left">
+      <span class="help-badge" v-if="mouseHover">{{ dataProject.title }}</span>
       <img
+        @mouseover="mouseOver"
+        @mouseleave="mouseLeave"
         @click="aboutInfo"
         class="projects-card__item-image"
         :src="require(`../../assets/img/${dataProject.image}`)"
+        :alt="dataProject.title"
       />
       <div v-if="!detailsProjectFull" class="projects-card__item-info">
         <div class="projects-card__item-title">
@@ -46,6 +50,12 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "CardProject",
+  data() {
+    return {
+      mouseHover: false,
+    };
+  },
+  emits: ["projectInfo"],
   props: {
     dataProject: {
       type: Object,
@@ -58,6 +68,7 @@ export default defineComponent({
       type: Boolean,
     },
   },
+
   methods: {
     /**
      * Передаем выбранный объект
@@ -65,18 +76,37 @@ export default defineComponent({
     aboutInfo() {
       this.$emit("projectInfo", this.dataProject);
     },
+    mouseOver() {
+      this.mouseHover = true;
+    },
+    mouseLeave() {
+      this.mouseHover = false;
+    },
   },
 });
 </script>
 
 <style lang="scss" scoped>
 @import "../../assets/scss/mixins";
+.help-badge {
+  transition: 0.2s ease-in;
+  padding: 5px;
+  background: rgba(0, 0, 0, 0.7);
+  position: absolute;
+  width: 100px;
+  border-radius: 10px;
+  left: -25px;
+  top: -39px;
+  @include descriptionText;
+  color: #fff;
+}
 .projects-card {
   &__item {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin: 24px 32px 12px 42px;
+    position: relative;
   }
   &__item-title {
     display: flex;

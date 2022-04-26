@@ -44,7 +44,7 @@
     <div v-if="!loadingAuth">
       <UiButton
         v-if="!activeResetPassword"
-        @click.prevent="authUser"
+        @click.prevent="authClassUser"
         class="form-user__button"
         >Авторизация</UiButton
       >
@@ -70,8 +70,8 @@ import UiInput from "@/components/UI/input/UiInput.vue";
 import UiButton from "@/components/UI/button/UiButton.vue";
 import { mapActions } from "pinia";
 import { useAuthUserStore } from "@/store/authUser";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "@/firebase";
+
+import User from "@/classes/UserClass";
 import router from "@/router";
 import UiLoading from "@/components/UI/loading/loading.vue";
 import { email, helpers, required } from "@vuelidate/validators";
@@ -137,18 +137,17 @@ export default defineComponent({
     /**
      * авторизация пользователя по почта/пароль
      */
-    async authUser() {
+    async authClassUser() {
       this.loadingAuth = true;
-      await signInWithEmailAndPassword(
-        auth,
-        this.authForm.email,
-        this.authForm.password
-      )
+      const authClass = new User();
+      await authClass
+        .signUpWithEmailAndPassword(this.authForm.email, this.authForm.password)
         .then(() => {
           router.push("/");
           this.loadingAuth = false;
         })
         .catch((error) => {
+          console.log("error-auth", error.code);
           this.v$.$validate();
           this.loadingAuth = false;
           switch (error.code) {

@@ -27,7 +27,7 @@
         {{ v$.registerForm.password.$errors[0].$message }}
       </span>
     </div>
-    <UiButton @click.prevent="registerUser" class="form-user__button"
+    <UiButton @click.prevent="registerUserClass" class="form-user__button"
       >Регистрация</UiButton
     >
   </form>
@@ -41,6 +41,7 @@ import UiButton from "@/components/UI/button/UiButton.vue";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/firebase";
 import { email, helpers, required, minLength } from "@vuelidate/validators";
+import User from "@/classes/UserClass";
 
 export default defineComponent({
   name: "RegisterUser",
@@ -79,12 +80,13 @@ export default defineComponent({
     /**
      * Регистрируем пользователя в системе
      */
-    async registerUser() {
-      await createUserWithEmailAndPassword(
-        auth,
-        this.registerForm.email,
-        this.registerForm.password
-      )
+    async registerUserClass() {
+      const registerUserClass = new User();
+      await registerUserClass
+        .createUserWithEmailAndPassword(
+          this.registerForm.email,
+          this.registerForm.password
+        )
         .then(() => {
           this.$emit("auth-user");
         })
@@ -110,6 +112,37 @@ export default defineComponent({
           this.registerSuccessful = false;
         });
     },
+    // async registerUser() {
+    //   await createUserWithEmailAndPassword(
+    //     auth,
+    //     this.registerForm.email,
+    //     this.registerForm.password
+    //   )
+    //     .then(() => {
+    //       this.$emit("auth-user");
+    //     })
+    //     .catch((error) => {
+    //       this.v$.$validate();
+    //       switch (error.code) {
+    //         case "auth/invalid-email":
+    //           this.errorMessage = "Неверный формат email";
+    //           break;
+    //         case "auth/email-already-in-use":
+    //           this.errorMessage =
+    //             "Учетная запись с таким адресом электронной почты уже использутеся";
+    //           break;
+    //         case "auth/weak-password":
+    //           this.errorMessage = "Введен слабый пароль";
+    //           break;
+    //         default:
+    //           this.errorMessage = "Email  или пароль неверны";
+    //           break;
+    //       }
+    //     })
+    //     .finally(() => {
+    //       this.registerSuccessful = false;
+    //     });
+    // },
   },
 });
 </script>
