@@ -16,6 +16,7 @@ import DoughnutComponent from "@/components/chartStatisctics/DoughnutComponent.v
 import SkillsComponent from "@/components/chartStatisctics/SkillsComponent.vue";
 import RadarComponent from "@/components/chartStatisctics/RadarComponent.vue";
 import HobbiesInfo from "@/components/cardInfo/HobbiesInfo.vue";
+
 export default defineComponent({
   name: "ChartView",
   components: {

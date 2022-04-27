@@ -38,8 +38,6 @@ import { defineComponent } from "vue";
 import useVuelidate from "@vuelidate/core";
 import UiInput from "@/components/UI/input/UiInput.vue";
 import UiButton from "@/components/UI/button/UiButton.vue";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "@/firebase";
 import { email, helpers, required, minLength } from "@vuelidate/validators";
 import User from "@/classes/UserClass";
 

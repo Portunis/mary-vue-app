@@ -30,12 +30,21 @@
     </div>
     <div class="wrapper__card wrapper__card-achievements">
       <h3 class="wrapper__card-title">Personal Journey</h3>
-      <div class="achievements">
+
+      <div v-if="achievements.achievements?.length" class="achievements">
         <AchievementUser
-          v-for="achievement in achievements"
+          v-for="achievement in achievements.achievements"
           :key="achievement.id"
           :achievement="achievement"
         />
+      </div>
+      <div v-if="!achievements.achievements?.length" class="achievements">
+        <div v-for="achievementLoader in 5" :key="achievementLoader">
+          <div class="achievement">
+            <div class="achievement__image"></div>
+            <h4 class="achievement__title"></h4>
+          </div>
+        </div>
       </div>
     </div>
     <CardInfo />
@@ -53,6 +62,9 @@ import { mapActions } from "pinia";
 import { useAuthUserStore } from "@/store/authUser";
 import AchievementUser from "@/components/achievement/AchievementUser.vue";
 import CardInfo from "@/components/cardInfo/CardInfo.vue";
+import User from "@/classes/UserClass";
+
+import AchievementModel from "@/models/AchievementModel";
 
 Chart.register(...registerables);
 
@@ -67,45 +79,30 @@ export default defineComponent({
       chartBar: {} as Record<string, unknown>,
       chartTask: {} as Record<string, unknown>,
       optionsChart: {} as Record<string, unknown>,
-      achievements: [
-        {
-          id: 1,
-          title: "Roller Skating Nationals",
-          description: "Represented Delhi in Roller Skating Nationals ",
-          date: "Jan 2011",
-          image: "Rectangle30.png",
-        },
-        {
-          id: 2,
-          title: "Art Prefect",
-          description: "Becam an Art-Prefect in Student Council",
-          date: "Mar 2012",
-          image: "startAchievement.png",
-        },
-        {
-          id: 3,
-          title: "First Startup",
-          description: "Started my own Startup in 2nd year of college ",
-          date: "Oct 2016",
-          image: "startUpAchievement.png",
-        },
-        {
-          id: 4,
-          title: "UI/UX Designer",
-          description: "Started my professional journey as a Designer",
-          date: "Jun 2018",
-          image: "designerAchievement.png",
-        },
-      ],
+      achievements: {} as AchievementModel,
     };
   },
   created() {
     this.initChart();
+    this.getAchievements();
   },
   methods: {
     ...mapActions(useAuthUserStore, {
       logOut: "logoutUser",
     }),
+    /**
+     * Получаем достижения пользователя
+     */
+    getAchievements() {
+      const achievement = new User();
+      achievement.getUserAchievements().then((item: any) => {
+        this.achievements = item;
+        console.log(this.achievements);
+      });
+    },
+    /**
+     * Подгружаем график
+     */
     initChart(): void {
       this.optionsChart = lineOptions;
       this.chartTask = lineChart;
@@ -150,7 +147,7 @@ export default defineComponent({
   grid-area: 2 / 2 / 3 / 4;
   height: 300px;
 }
-.wrapper__card-achievements {
+w .wrapper__card-achievements {
   grid-area: 1 / 2 / 2 / 4;
   height: 282px;
 }
@@ -186,5 +183,25 @@ export default defineComponent({
   color: #fff;
   width: 300px;
   margin: 10px auto;
+}
+
+.achievement {
+  border: none;
+  &__image {
+    border-radius: 10px;
+    width: 70px;
+    height: 70px;
+    @include loaderPlaceholder;
+  }
+  &__title {
+    margin: 10px auto;
+    width: 50px;
+    height: 10px;
+    border-radius: 4px;
+    @include loaderPlaceholder;
+  }
+}
+@keyframes wave-lines {
+  @include animationLoadPlaceholder;
 }
 </style>

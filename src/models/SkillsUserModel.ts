@@ -1,6 +1,10 @@
 export default interface SkillsUserModel {
+  uid: string;
+  skills: Skills[];
+}
+interface Skills {
   id: number;
   name: string;
-  stats: number;
-  startStats: number;
+  stat: number;
+  startStat: number;
 }

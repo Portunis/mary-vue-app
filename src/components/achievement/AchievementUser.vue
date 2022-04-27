@@ -1,5 +1,5 @@
 <template>
-  <div class="achievement">
+  <div class="achievement" v-if="achievement.got_achievement !== 0">
     <img
       class="achievement__image"
       :src="require(`@/assets/img/${achievement.image}`)"
