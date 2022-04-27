@@ -147,7 +147,7 @@ export default defineComponent({
   grid-area: 2 / 2 / 3 / 4;
   height: 300px;
 }
-w .wrapper__card-achievements {
+.wrapper__card-achievements {
   grid-area: 1 / 2 / 2 / 4;
   height: 282px;
 }
