@@ -43,6 +43,8 @@
           <div class="achievement">
             <div class="achievement__image"></div>
             <h4 class="achievement__title"></h4>
+            <div class="achievement__description"></div>
+            <div class="achievement__date"></div>
           </div>
         </div>
       </div>
@@ -95,9 +97,8 @@ export default defineComponent({
      */
     getAchievements() {
       const achievement = new User();
-      achievement.getUserAchievements().then((item: any) => {
-        this.achievements = item;
-        console.log(this.achievements);
+      achievement.getUserAchievements().then((item) => {
+        this.achievements = item as AchievementModel;
       });
     },
     /**
@@ -189,15 +190,29 @@ export default defineComponent({
   border: none;
   &__image {
     border-radius: 10px;
-    width: 70px;
-    height: 70px;
+    width: 84px;
+    height: 81px;
     @include loaderPlaceholder;
   }
   &__title {
-    margin: 10px auto;
+    margin: 5px auto;
     width: 50px;
-    height: 10px;
+    height: 12px;
     border-radius: 4px;
+    @include loaderPlaceholder;
+  }
+  &__description {
+    margin: 0 auto;
+    width: 60px;
+    height: 12px;
+    border-radius: 10px;
+    @include loaderPlaceholder;
+  }
+  &__date {
+    margin: 5px auto;
+    width: 40px;
+    height: 12px;
+    border-radius: 10px;
     @include loaderPlaceholder;
   }
 }

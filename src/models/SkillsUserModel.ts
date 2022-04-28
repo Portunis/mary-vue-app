@@ -1,6 +1,6 @@
 export default interface SkillsUserModel {
   uid: string;
-  skills: Skills[];
+  skills: Array<Skills>;
 }
 interface Skills {
   id: number;

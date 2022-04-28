@@ -2,17 +2,40 @@
   <div class="chart-doughnut">
     <h3 class="chart-doughnut__title">Honors & Awards</h3>
     <div class="chart-body">
-      <DoughnutChart :chartData="chartTask" :options="optionsChart" />
+      <DoughnutChart
+        v-if="dataChart.achievements"
+        :chartData="chartTask"
+        :options="optionsChart"
+      />
+      <div v-if="!dataChart.achievements" class="chart-loader"></div>
     </div>
-    <div class="chart-doughnut__footer">
-      <div v-for="item in dataChart" :key="item.id" class="info-badge">
+
+    <div v-if="dataChart.achievements">
+      <div class="chart-doughnut__footer">
         <div
-          class="info-badge__header"
-          :style="{ background: item.color }"
-        ></div>
-        <div class="info-badge__body">
-          <p class="info-badge__title">{{ item.labels }}</p>
-          <p class="info-badge__description">{{ item.data }}</p>
+          v-for="item in dataChart.achievements"
+          :key="item.id"
+          class="info-badge"
+        >
+          <div
+            class="info-badge__header"
+            :style="{ background: item.color }"
+          ></div>
+          <div class="info-badge__body">
+            <p class="info-badge__title">{{ item.name }}</p>
+            <p class="info-badge__description">{{ item.count }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div v-if="!dataChart.achievements">
+      <div class="chart-doughnut__footer">
+        <div class="info-badge__loader" v-for="n in 3" :key="n">
+          <div class="info-badge__header-loader"></div>
+          <div class="info-badge__body-loader">
+            <div class="info-badge__title-loader"></div>
+            <div class="info-badge__description-loader"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -22,9 +45,10 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { DoughnutChart } from "vue-chart-3";
-
-import { doughnutChart, doughnutOptions } from "@/charts/DoughnutConfig";
+import AwardsModel from "@/models/AwardsModel";
+import { doughnutOptions, doughnutData } from "@/charts/DoughnutConfig";
 import { Chart, registerables } from "chart.js";
+import User from "@/classes/UserClass";
 Chart.register(...registerables);
 export default defineComponent({
   name: "DoughnutComponent",
@@ -33,20 +57,23 @@ export default defineComponent({
     return {
       chartTask: {} as Record<string, unknown>,
       optionsChart: {} as Record<string, unknown>,
-      dataChart: [
-        { id: 1, labels: "Certificates", data: 28, color: "#937BF5" },
-        { id: 2, labels: "Trophies", data: 9, color: "#F97381" },
-        { id: 3, labels: "Medals", data: 23, color: "#FFBB38" },
-      ],
+      dataChart: {} as AwardsModel,
     };
   },
   created() {
+    this.getAwards();
     this.initChart();
   },
   methods: {
+    getAwards(): void {
+      const userAwards = new User();
+      userAwards.getUserAwards().then((user_awards) => {
+        this.dataChart = user_awards as AwardsModel;
+        this.chartTask = doughnutData(this.dataChart);
+      });
+    },
     initChart(): void {
       this.optionsChart = doughnutOptions;
-      this.chartTask = doughnutChart;
     },
   },
 });
@@ -81,6 +108,43 @@ export default defineComponent({
     justify-content: space-around;
     margin: 0 16px;
   }
+}
+.chart-loader {
+  width: 162px;
+  height: 162px;
+  border-radius: 50%;
+  margin: 4px;
+  @include loaderPlaceholder;
+}
+.info-badge__loader {
+  width: 92px;
+  height: 90px;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  padding: 8px;
+  box-sizing: border-box;
+  @include loaderPlaceholder;
+}
+.info-badge__header-loader {
+  border-radius: 4px 4px 0 0;
+  width: 76px;
+  height: 17px;
+  margin: 0 auto;
+  @include loaderPlaceholder;
+}
+.info-badge__title-loader {
+  margin: 4px 0 4px 0;
+  width: 50px;
+  height: 12px;
+  border-radius: 4px;
+  @include loaderPlaceholder;
+}
+.info-badge__description-loader {
+  margin-top: 10px;
+  width: 27px;
+  height: 27px;
+  border-radius: 4px;
+  @include loaderPlaceholder;
 }
 .info-badge {
   width: 92px;
@@ -121,5 +185,8 @@ export default defineComponent({
     text-align: left;
     color: #000000;
   }
+}
+@keyframes wave-lines {
+  @include animationLoadPlaceholder;
 }
 </style>

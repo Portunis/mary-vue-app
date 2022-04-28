@@ -1,22 +1,27 @@
 <template>
   <div class="chart-line">
     <h3 class="chart-line__title">Tool Comfort and Skill</h3>
-    <div v-if="user_skills.skills?.length">
-      <div
-        class="chart-bar-vertical"
-        v-for="skillsItem in user_skills.skills"
-        :key="skillsItem.id"
-      >
-        <h3 v-if="user_skills.skills.length" class="chart-title">
-          {{ skillsItem.name }}
-        </h3>
-        <div v-if="user_skills.skills.length" class="chart-bar">
-          <div class="chart-progress" :style="{ width: skillsItem.stat + '%' }">
-            <!--          <p class="chart-progress__count">{{ skillsItem.stats }}%</p>-->
+    <transition name="fade">
+      <div v-if="user_skills.skills?.length">
+        <div
+          class="chart-bar-vertical"
+          v-for="skillsItem in user_skills.skills"
+          :key="skillsItem.id"
+        >
+          <h3 v-if="user_skills.skills.length" class="chart-title">
+            {{ skillsItem.name }}
+          </h3>
+          <div v-if="user_skills.skills.length" class="chart-bar">
+            <div
+              class="chart-progress"
+              :style="{ width: skillsItem.stat + '%' }"
+            >
+              <!--          <p class="chart-progress__count">{{ skillsItem.stats }}%</p>-->
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </transition>
     <div v-if="!user_skills.skills?.length">
       <div
         v-for="itemLoader in 8"
@@ -35,7 +40,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import { defineComponent } from "vue";
 import SkillsUserModel from "@/models/SkillsUserModel";
 import User from "@/classes/UserClass";
 
@@ -55,9 +60,11 @@ export default defineComponent({
      */
     getUserSkill(): void {
       const userSkill = new User();
-      userSkill.getUserSkills().then((skills_user: any) => {
-        this.user_skills = skills_user;
-      });
+      userSkill
+        .getUserSkills()
+        .then(
+          (skills_user) => (this.user_skills = skills_user as SkillsUserModel)
+        );
     },
   },
 });
@@ -177,5 +184,12 @@ export default defineComponent({
   100% {
     background-position: 468px 0;
   }
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {
+  opacity: 0;
 }
 </style>

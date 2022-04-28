@@ -1,10 +1,13 @@
-import { addDoc, collection, getDoc, doc } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc } from "firebase/firestore";
 import {
-  signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
 } from "firebase/auth";
 
 import { auth, firestore } from "@/firebase";
+import SkillsUserModel from "@/models/SkillsUserModel";
+import AchievementModel from "@/models/AchievementModel";
+import AwardsModel from "@/models/AwardsModel";
 
 export default class User {
   /**
@@ -35,33 +38,69 @@ export default class User {
               id: 1,
               name: "Roller Skating",
               description: "fdsfasfad",
-              date: "Jan 2011",
+              date: "",
               image: "designerAchievement.png",
               got_achievement: 0,
+              title: "Achivka",
             },
             {
               id: 2,
               name: "Roller Skating",
               description: "fdsfasfad",
-              date: "Jan 2011",
+              date: "",
               image: "designerAchievement.png",
               got_achievement: 0,
+              title: "Achivka",
             },
             {
               id: 3,
               name: "Roller Skating",
               description: "fdsfasfad",
-              date: "Jan 2011",
+              date: "",
               image: "designerAchievement.png",
               got_achievement: 0,
+              title: "Achivka",
             },
             {
               id: 4,
               name: "Roller Skating",
               description: "fdsfasfad",
-              date: "Jan 2011",
+              date: "",
               image: "designerAchievement.png",
               got_achievement: 0,
+              title: "Achivka",
+            },
+            {
+              id: 5,
+              name: "Roller Skating",
+              description: "fdsfasfad",
+              date: "",
+              image: "designerAchievement.png",
+              got_achievement: 0,
+              title: "Achivka",
+            },
+          ],
+        });
+        addDoc(collection(firestore, "awards_user"), {
+          uid: registeredUser.user.uid,
+          achievements: [
+            {
+              id: 1,
+              name: "Certificates",
+              count: 28,
+              color: "rgb(147, 123, 245)",
+            },
+            {
+              id: 2,
+              name: "Trophies",
+              count: 9,
+              color: "rgb(249, 115, 129)",
+            },
+            {
+              id: 3,
+              name: "Medals",
+              count: 23,
+              color: "rgb(255, 187, 56)",
             },
           ],
         });
@@ -81,18 +120,23 @@ export default class User {
   /**
    * Получаем умения пользователя
    */
-  async getUserSkills() {
+  async getUserSkills(): Promise<SkillsUserModel | undefined> {
     const docRef = doc(firestore, "skills_user", "gNi40wYIGUojimbOtAy5");
     const userSkill = await getDoc(docRef);
-    return userSkill.data();
+    return userSkill.data() as SkillsUserModel;
   }
 
   /**
    * Получаем достижения пользователя
    */
-  async getUserAchievements() {
-    const docRef = doc(firestore, "achievement_user", "zzGEe2mQITulrR4KJRry");
+  async getUserAchievements(): Promise<AchievementModel | undefined> {
+    const docRef = doc(firestore, "achievement_user", "TJmbJo4Nhpl0UFMGW4MC");
     const userAchievement = await getDoc(docRef);
-    return userAchievement.data();
+    return userAchievement.data() as AchievementModel;
+  }
+  async getUserAwards(): Promise<AwardsModel | undefined> {
+    const docRef = doc(firestore, "awards_user", "XO6OAZfpY45uwqD4YBEd");
+    const userAwards = await getDoc(docRef);
+    return userAwards.data() as AwardsModel;
   }
 }

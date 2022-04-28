@@ -1,14 +1,18 @@
 <template>
-  <div class="achievement" v-if="achievement.got_achievement !== 0">
+  <div class="achievement">
     <img
+      v-if="achievement.got_achievement === 1"
       class="achievement__image"
       :src="require(`@/assets/img/${achievement.image}`)"
     />
+    <img v-if="achievement.got_achievement === 0" class="achievement__block" />
     <h4 class="achievement__title">{{ achievement.title }}</h4>
     <p class="achievement__description">
       {{ achievement.description }}
     </p>
-    <p class="achievement__date">{{ achievement.date }}</p>
+    <p class="achievement__date" v-if="achievement.date">
+      {{ achievement.date }}
+    </p>
   </div>
 </template>
 
@@ -18,6 +22,7 @@ import AchievementModel from "@/models/AchievementModel";
 
 export default defineComponent({
   name: "AchievementUser",
+
   props: {
     achievement: {
       type: Object as PropType<AchievementModel>,
@@ -38,8 +43,6 @@ export default defineComponent({
   }
   &__description {
     color: #8d8d8d;
-  }
-  &__description {
     @include descriptionText;
     width: 157px;
     margin: 2px auto;
@@ -49,5 +52,11 @@ export default defineComponent({
     color: #aeaeae;
     margin: 2px auto;
   }
+}
+.achievement__block {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  width: 84px;
+  height: 81px;
 }
 </style>

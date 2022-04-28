@@ -2,6 +2,11 @@
   <div class="nav-bar">
     <div class="user">
       <div class="user__info">
+        <img
+          v-if="!user.photoURL"
+          class="user__avatar"
+          src="../../assets/img/pngegg.png"
+        />
         <img class="user__avatar" :src="user.photoURL" />
         <p class="user__name">{{ user.email }}</p>
         <p class="user__server">ServerName</p>

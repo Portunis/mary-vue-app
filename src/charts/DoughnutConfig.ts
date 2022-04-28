@@ -1,3 +1,28 @@
+import AwardsModel from "@/models/AwardsModel";
+
+const doughnutData = (doughnutData: AwardsModel) => {
+  const labels = doughnutData?.achievements?.map((item) => {
+    return item.name;
+  });
+  const count = doughnutData?.achievements?.map((item) => {
+    return item.count;
+  });
+  const color = doughnutData?.achievements?.map((item) => {
+    return item.color;
+  });
+  return {
+    labels: labels,
+
+    datasets: [
+      {
+        data: count,
+        borderJoinStyle: "bevel",
+        backgroundColor: color,
+      },
+    ],
+  };
+};
+
 const doughnutOptions = {
   borderRadius: 10,
   animation: {
@@ -36,16 +61,4 @@ const doughnutOptions = {
     },
   },
 };
-const doughnutChart = {
-  labels: ["Certificates", "Trophies", "Medals"],
-
-  datasets: [
-    {
-      data: [28, 7, 13],
-      borderJoinStyle: "bevel",
-      backgroundColor: ["#937BF5", "#F97381", "#FFBB38"],
-    },
-  ],
-};
-
-export { doughnutChart, doughnutOptions };
+export { doughnutOptions, doughnutData };
